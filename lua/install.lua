@@ -1,6 +1,4 @@
-installFOR()
-
-function installFOR()
+local function installFOR()
     local baseURL = "https://raw.githubusercontent.com/modmuss50/FOR/master/lua/"
 
     print("Downloading file list")
@@ -36,3 +34,5 @@ end
 function getUrlSuffix()
     return ("?t=" .. math.random(1, 10000))
 end
+
+installFOR()
