@@ -165,10 +165,9 @@ local Button = {
     end,
 }
  
-function new(monSide)
+function new()
     local buttonInstance = {
-        side = monSide or "term",
-        mon = monSide and peripheral.wrap(monSide) or term.current(),
+        mon = peripheral.find("monitor") or term.current(),
         buttonList = {},
         clickMap = {},
     }
