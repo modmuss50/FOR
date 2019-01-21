@@ -1,6 +1,6 @@
 os.loadAPI("json.lua")
 
-local apiURL = "http://playground.gaz492.uk:8000/yfoollyf/"
+local apiURL = "https://for.ftb.world/api/stations/"
 
 --Gets around caching
 function getUrlSuffix()
