@@ -15,10 +15,15 @@ for i = 1, #lines do
     local filename = lines[i]
     print("Downloading: " .. filename)
     if fs.exists(filename) then
+        print("Deleting old " .. filename)
         fs.delete(filename)
     end
+
     local url = baseURL .. filename
-    shell.run("wget", url, filename)
+    local fileBody = http.get(url).readAll()
+    local file = assert(fs.open(filename, "w"))
+    file.write(fileBody)
+    file.close()
 end
 
 print("Done, downloaded " .. table.getn(lines) .. " files")
