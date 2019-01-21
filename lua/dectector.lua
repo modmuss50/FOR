@@ -40,6 +40,7 @@ local function dectectorMain()
                 owner = ownerName
             }
         }
+        print(json.encodePretty(passData))
         utils.httpPostAsync("detector/pass", passData)
     end
 end
