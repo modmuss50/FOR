@@ -2,7 +2,7 @@ local baseURL = "https://raw.githubusercontent.com/modmuss50/FOR/master/lua/"
 
 print("Downloading file list")
 
-local response = http.get(baseURL .. "files.txt")
+local response = http.get(baseURL .. "files.txt".. getUrlSuffix())
 
 local body = response.readAll()
 local lines = {}
@@ -19,7 +19,7 @@ for i = 1, #lines do
         fs.delete(filename)
     end
 
-    local url = baseURL .. filename
+    local url = baseURL .. filename .. getUrlSuffix()
     local fileBody = http.get(url).readAll()
     local file = assert(fs.open(filename, "w"))
     file.write(fileBody)
@@ -27,3 +27,8 @@ for i = 1, #lines do
 end
 
 print("Done, downloaded " .. table.getn(lines) .. " files")
+
+--Gets around caching
+local function getUrlSuffix()
+    return "?t=" .. math.random(1, 10000)
+end
