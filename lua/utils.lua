@@ -12,7 +12,7 @@ function httpGet(path)
     local str = get.readAll()
     if str == nil then
         error("invalid response")
-    do
+    end
     local response = json.decode(str)
     return response
 end
@@ -23,8 +23,7 @@ function post(path, data)
     local str = post.readAll()
     if str == nil then
         error("invalid response")
-    do
+    end
     local response  = json.decode(str)
     return response
 end
-
