@@ -7,16 +7,24 @@ function getUrlSuffix()
     return ("?t=" .. math.random(1, 1000000))
 end
 
-function get(path)
+function httpGet(path)
     local get = http.get(apiURL .. path .. getUrlSuffix())
-    local response  = json.decode(get.readAll())
+    local str = get.readAll()
+    if str == nil then
+        error("invalid response")
+    do
+    local response = json.decode(str)
     return response
 end
 
 function post(path, data)
     local body = json.encode(data)
     local post = http.post(apiURL .. path .. getUrlSuffix(), body)
-    local response  = json.decode(post.readAll())
+    local str = post.readAll()
+    if str == nil then
+        error("invalid response")
+    do
+    local response  = json.decode(str)
     return response
 end
 
