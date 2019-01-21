@@ -30,17 +30,20 @@ local function dectectorMain()
     local data = json.decodeFromFile(dataFile)
 
     while true do
-        local event, minecartType, minecartName, primaryColor, secondaryColor, destination, ownerName = os.pullEvent("minecart")
-        print("pass:")
-        local data = {
-            type = minecartType,
-            name = minecartName,
-            color = primaryColor,
-            color2 = secondaryColor,
-            dest = destination,
-            owner = ownerName
+        local minecartType, minecartName, primaryColor, secondaryColor, destination, ownerName = os.pullEvent("minecart")
+        print("pass: " .. minecartName)
+        local passData = {
+            info = data,
+            minecart = {
+                type = minecartType,
+                name = minecartName,
+                color = primaryColor,
+                color2 = secondaryColor,
+                dest = destination,
+                owner = ownerName
+            }
         }
-        utils.httpPostAsync("detector/pass", data)
+        utils.httpPostAsync("detector/pass", passData)
     end
 end
 
