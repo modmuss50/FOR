@@ -2,14 +2,6 @@ os.loadAPI("json.lua")
 
 local dataFile = "satation.json"
 
-local function stationMain()
-    if not fs.exists(dataFile) then
-        setup()
-    end
-    print("Reading station.json")
-    data = decodeFromFile(dataFile)
-    print("Hello " .. data.name)
-end
 
 local function setup()
     print("Station data not found, station setup tool:")
@@ -42,6 +34,15 @@ end
 local function getStationID(stationData)
     print("Getting new ID from server for " .. stationData.name)
     return 0
+end
+
+local function stationMain()
+    if not fs.exists(dataFile) then
+        setup()
+    end
+    print("Reading station.json")
+    data = decodeFromFile(dataFile)
+    print("Hello " .. data.name)
 end
 
 stationMain()
