@@ -31,7 +31,6 @@ local function dectectorMain()
 
     while true do
         local var1, var2, minecartType, minecartName, primaryColor, secondaryColor, destination, ownerName = os.pullEvent("minecart")
-        print("pass: " .. var1 .. "   ".. var2 .. "   ".. minecartType .. "   ".. minecartName .. "   ".. primaryColor .. "   ".. secondaryColor .. "   ".. destination .. "   ")
         local passData = {
             info = data,
             minecart = {
@@ -42,6 +41,16 @@ local function dectectorMain()
                 dest = destination,
                 owner = ownerName
             }
+        }
+        passData = {
+            v1 = var1,
+            v2 = var2,
+            v3 = minecartType,
+            v4 = minecartName,
+            v5 = primaryColor,
+            v6 = secondaryColor,
+            v7 = destination,
+            v8 = ownerName
         }
         utils.httpPostAsync("detector/pass", passData)
     end
