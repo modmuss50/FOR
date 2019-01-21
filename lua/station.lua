@@ -3,6 +3,12 @@ os.loadAPI("utils.lua")
 
 local dataFile = "satation.json"
 
+local function getStationID(stationData)
+    print("Getting new ID from server for " .. stationData.name)
+    local response = utils.post("station/new", stationData)
+    print("New station id = ")
+    return 0
+end
 
 local function setup()
     print("Station data not found, station setup tool:")
@@ -32,12 +38,6 @@ local function setup()
     encodeToFile(dataFile, data)
 end
 
-local function getStationID(stationData)
-    print("Getting new ID from server for " .. stationData.name)
-    local response = utils.post("station/new", stationData)
-    print("New station id = ")
-    return 0
-end
 
 local function stationMain()
     if not fs.exists(dataFile) then
