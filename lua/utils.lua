@@ -17,7 +17,7 @@ function httpGet(path)
     return response
 end
 
-function post(path, data)
+function httpPost(path, data)
     local body = json.encode(data)
     local postReq = http.post(apiURL .. path .. getUrlSuffix(), body)
     local str = postReq.readAll()
@@ -26,4 +26,9 @@ function post(path, data)
     end
     local response  = json.decode(str)
     return response
+end
+
+function httpPostAsync(path, data)
+    local body = json.encode(data)
+    http.request(apiURL .. path .. getUrlSuffix(), body)
 end

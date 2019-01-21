@@ -17,7 +17,7 @@ local function setup()
             z = readValue("z pos")
         }
     }
-    data.id = x .. "," .. y .. "," .. z
+    data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
 
     json.encodeToFile(dataFile, data)
 end
@@ -31,6 +31,7 @@ local function dectectorMain()
 
     while true do
         local event, minecartType, minecartName, primaryColor, secondaryColor, destination, ownerName = os.pullEvent("minecart")
+        print("pass:")
         local data = {
             type = minecartType,
             name = minecartName,
@@ -39,7 +40,7 @@ local function dectectorMain()
             dest = destination,
             owner = ownerName
         }
-        utils.post("detector/pass", data)
+        utils.httpPostAsync("detector/pass", data)
     end
 end
 

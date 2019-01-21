@@ -21,7 +21,7 @@ local function setup()
         }
     }
 
-    data.id = x .. "," .. y .. "," .. z
+    data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
 
     json.encodeToFile(dataFile, data)
 end
