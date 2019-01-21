@@ -1,4 +1,5 @@
 os.loadAPI("json.lua")
+os.loadAPI("utils.lua")
 
 local dataFile = "satation.json"
 
@@ -13,7 +14,7 @@ local function setup()
     local zPos = read()
 
     print("Is this correct? (y/n)")
-    print("Station name: " .. name .. " X: " .. xPos .. "Y: " .. yPos)
+    print("Station name: " .. name .. " X: " .. xPos .. "Y: " .. zPos)
 
     if not read() == "y" then
         exit()
@@ -33,6 +34,8 @@ end
 
 local function getStationID(stationData)
     print("Getting new ID from server for " .. stationData.name)
+    local response = utils.post("station/new", stationData)
+    print("New station id = ")
     return 0
 end
 
