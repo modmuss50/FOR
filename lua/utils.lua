@@ -8,8 +8,8 @@ function getUrlSuffix()
 end
 
 function httpGet(path)
-    local get = http.get(apiURL .. path .. getUrlSuffix())
-    local str = get.readAll()
+    local getReq = http.get(apiURL .. path .. getUrlSuffix())
+    local str = getReq.readAll()
     if str == nil then
         error("invalid response")
     end
@@ -19,8 +19,8 @@ end
 
 function post(path, data)
     local body = json.encode(data)
-    local post = http.post(apiURL .. path .. getUrlSuffix(), body)
-    local str = post.readAll()
+    local postReq = http.post(apiURL .. path .. getUrlSuffix(), body)
+    local str = postReq.readAll()
     if str == nil then
         error("invalid response")
     end
