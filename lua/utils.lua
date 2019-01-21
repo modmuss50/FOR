@@ -1,6 +1,6 @@
 os.loadAPI("json.lua")
 
-local apiURL = "http://playground.gaz492.uk:8000/"
+local apiURL = "http://playground.gaz492.uk:8000/yfoollyf/"
 
 --Gets around caching
 function getUrlSuffix()

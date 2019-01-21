@@ -4,12 +4,6 @@ os.loadAPI("touchpoint.lua")
 
 local dataFile = "station.json"
 
-local function getStationID(stationData)
-    print("Getting new ID from server for " .. stationData.name)
-    local response = utils.post("station/new", stationData)
-    print("New station id = ")
-    return 0
-end
 
 local function readValue(name)
     print("Enter " .. name .. ":")
@@ -27,8 +21,7 @@ local function setup()
         }
     }
 
-    local newId = getStationID(data)
-    data.id = newId
+    data.id = x .. "," .. y .. "," .. z
 
     json.encodeToFile(dataFile, data)
 end
