@@ -32,3 +32,11 @@ function httpPostAsync(path, data)
     local body = json.encode(data)
     http.request(apiURL .. path .. getUrlSuffix(), body)
 end
+
+function startsWith(str, start)
+    return str:sub(1, #start) == start
+ end
+ 
+ function endsWith(str, ending)
+    return ending == "" or str:sub(-#ending) == ending
+ end
