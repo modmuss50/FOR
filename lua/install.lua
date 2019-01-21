@@ -29,6 +29,6 @@ end
 print("Done, downloaded " .. table.getn(lines) .. " files")
 
 --Gets around caching
-local function getUrlSuffix()
+function getUrlSuffix()
     return "?t=" .. math.random(1, 10000)
 end
