@@ -26,13 +26,27 @@ local function setup()
     json.encodeToFile(dataFile, data)
 end
 
-local function travel(destination)
-    print("traveling to")
-    local t = touchpoint.new(MONITOR_LOCATION)
-    t:add("Traveling to " .. destination, nil, 1, 1, 39, 19, colors.green, colors.white)
+local function message(text, time, col)
+    time = time or 3
+    col = col or colors.green
 
+    local t = touchpoint.new(MONITOR_LOCATION)
+    t:add(text, nil, 1, 1, 39, 19, col, col)
     t:draw()
-    sleep(2)
+    sleep(time)
+end
+
+local function travel(destination)
+    message("Traveling to " .. destination, 1)
+    message("Printing ticket", 1)
+    
+    local ticketMachine = peripheral.wrap("left")
+    ticketMachine.setSelectedTicket(1)
+    ticketMachine.setDestination(1, destination)
+    local printed = ticketMachine.printTicket(10)
+    if not printed then
+        message("Error printing ticket", 5, colors.red)
+    end
 end
 
 local function drawScreen(data, stations)
@@ -81,6 +95,9 @@ local function stationMain()
         "Station 2",
         "Someone Else"
     }
+
+    local ticketMachine = peripheral.wrap("left")
+    ticketMachine.setManualPrintingAllowed(false)
 
     drawScreen(data, stations)
 end
