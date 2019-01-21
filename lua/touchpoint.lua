@@ -123,7 +123,7 @@ local Button = {
     run = function(self)
         while true do
             self:draw()
-            local event = {self:handleEvents(os.pullEvent(self.side == "term" and "mouse_click" or "monitor_touch"))}
+            local event = {self:handleEvents(os.pullEvent("monitor_touch"))}
             if event[1] == "button_click" then
                 self.buttonList[event[2]].func()
             end
@@ -132,7 +132,7 @@ local Button = {
     handleEvents = function(self, ...)
         local event = {...}
         if #event == 0 then event = {os.pullEvent()} end
-        if (self.side == "term" and event[1] == "mouse_click") or (self.side ~= "term" and event[1] == "monitor_touch" and event[2] == self.side) then
+        if (event[1] == "monitor_touch") then
             local clicked = self.clickMap[event[3]][event[4]]
             if clicked and self.buttonList[clicked] then
                 return "button_click", clicked
@@ -165,10 +165,9 @@ local Button = {
     end,
 }
  
-function new(monSide)
+function new()
     local buttonInstance = {
-        side = monSide or "term",
-        mon = monSide and peripheral.wrap(monSide) or term.current(),
+        mon = peripheral.find("monitor") or term.current(),
         buttonList = {},
         clickMap = {},
     }

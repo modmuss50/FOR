@@ -3,7 +3,6 @@ os.loadAPI("utils.lua")
 os.loadAPI("touchpoint.lua")
 
 local dataFile = "station.json"
-local MONITOR_LOCATION = "right"
 
 local function readValue(name)
     print("Enter " .. name .. ":")
@@ -30,7 +29,7 @@ local function message(text, time, col)
     time = time or 3
     col = col or colors.green
 
-    local t = touchpoint.new(MONITOR_LOCATION)
+    local t = touchpoint.new()
     t:add(text, nil, 1, 1, 39, 19, col, col)
     t:draw()
     sleep(time)
@@ -40,17 +39,17 @@ local function travel(destination)
     message("Traveling to " .. destination, 1)
     message("Printing ticket", 1)
     
-    local ticketMachine = peripheral.wrap("left")
+    local ticketMachine = peripheral.find("ticket_machine")
     ticketMachine.setSelectedTicket(1)
     ticketMachine.setDestination(1, destination)
     local printed, error = ticketMachine.printTicket(10)
     if not printed then
-        message("Failed to print ticket:" .. error, 5, colors.red)
+        message("Failed to print:" .. error, 5, colors.red)
     end
 end
 
 local function drawScreen(data, stations)
-    local t = touchpoint.new(MONITOR_LOCATION)
+    local t = touchpoint.new()
     t:add("This Station: " .. data.name, nil, 1, 1, 39, 1, colors.lime, colors.white)
     t:add("  Select Destination:", nil, 1, 2, 39, 2, colors.green, colors.white)
 
@@ -96,7 +95,7 @@ local function stationMain()
         "Someone Else"
     }
 
-    local ticketMachine = peripheral.wrap("left")
+    local ticketMachine = peripheral.find("ticket_machine")
     ticketMachine.setManualPrintingAllowed(false)
 
     drawScreen(data, stations)
@@ -105,5 +104,4 @@ end
 while true do
     stationMain()
 end
-
 
