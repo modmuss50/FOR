@@ -35,9 +35,11 @@ local function stationMain()
 
     local t = touchpoint.new("right")
 
-    t:add("test", nil, 2, 2, 14, 11, colors.red, colors.lime)
+    t:add("Station: " .. data.name, nil, 1, 1, 1, 1, colors.lime, colors.white)
 
-    t:add("test2", nil, 16, 2, 28, 11, colors.red, colors.lime)
+    -- t:add("test", nil, 2, 2, 14, 11, colors.red, colors.lime)
+
+    -- t:add("test2", nil, 16, 2, 28, 11, colors.red, colors.lime)
 
     t:draw()
 
