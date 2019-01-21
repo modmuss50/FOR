@@ -30,7 +30,7 @@ local function dectectorMain()
     local data = json.decodeFromFile(dataFile)
 
     while true do
-        local var1, var2 minecartType, minecartName, primaryColor, secondaryColor, destination, ownerName = os.pullEvent("minecart")
+        local var1, var2, minecartType, minecartName, primaryColor, secondaryColor, destination, ownerName = os.pullEvent("minecart")
         print("pass: " .. var1 .. "   ".. var2 .. "   ".. minecartType .. "   ".. minecartName .. "   ".. primaryColor .. "   ".. secondaryColor .. "   ".. destination .. "   ")
         local passData = {
             info = data,
