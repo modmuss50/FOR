@@ -43,9 +43,9 @@ local function travel(destination)
     local ticketMachine = peripheral.wrap("left")
     ticketMachine.setSelectedTicket(1)
     ticketMachine.setDestination(1, destination)
-    local printed = ticketMachine.printTicket(10)
+    local printed, error = ticketMachine.printTicket(10)
     if not printed then
-        message("Error printing ticket", 5, colors.red)
+        message("Failed to print ticket:" .. error, 5, colors.red)
     end
 end
 
