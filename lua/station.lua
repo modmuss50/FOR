@@ -10,41 +10,34 @@ local function getStationID(stationData)
     return 0
 end
 
+local function readValue(name)
+    print("Enter " .. name .. ":")
+    return read()
+end
+
 local function setup()
     print("Station data not found, station setup tool:")
-    print("Enter station name:")
-    local name = read()
-    print("Enter X pos:")
-    local xPos = read()
-    print("Enter Z pos:")
-    local zPos = read()
-
-    print("Is this correct? (y/n)")
-    print("Station name: " .. name .. " X: " .. xPos .. "Y: " .. zPos)
-
-    if not read() == "y" then
-        exit()
-    end
-
     local data = {
-        name = name,
-        x = xPos,
-        z = zPos
+        name = readValue("station name"),
+        pos = {
+            x = readValue("x pos"),
+            y = readValue("y pos"), 
+            z = readValue("z pos"),
+        }
     }
 
     local newId = getStationID(data)
     data.id = newId
 
-    encodeToFile(dataFile, data)
+    json.encodeToFile(dataFile, data)
 end
-
 
 local function stationMain()
     if not fs.exists(dataFile) then
         setup()
     end
     print("Reading station.json")
-    data = decodeFromFile(dataFile)
+    data = json.decodeFromFile(dataFile)
     print("Hello " .. data.name)
 end
 
