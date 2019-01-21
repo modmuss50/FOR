@@ -1,6 +1,8 @@
-os.loadAPI("json")
+os.loadAPI("json.lua")
 
 local dataFile = "satation.json"
+
+main()
 
 local function main()
     if not fs.exists(dataFile) then
