@@ -1,7 +1,8 @@
 os.loadAPI("json.lua")
 os.loadAPI("utils.lua")
+os.loadAPI("touchpoint.lua")
 
-local dataFile = "satation.json"
+local dataFile = "station.json"
 
 local function getStationID(stationData)
     print("Getting new ID from server for " .. stationData.name)
@@ -38,7 +39,22 @@ local function stationMain()
     end
     print("Reading station.json")
     data = json.decodeFromFile(dataFile)
-    print("Hello " .. data.name)
+
+    local t = touchpoint.new("right")
+
+    t:add("test", nil, 2, 2, 14, 11, colors.red, colors.lime)
+
+    t:add("test2", nil, 16, 2, 28, 11, colors.red, colors.lime)
+
+    t:draw()
+
+    while true do
+        local event, button = t:handleEvents(os.pullEvent())
+        if event == "button_click" then
+                print(button .. " pressed")
+        end
+end
+
 end
 
 stationMain()
