@@ -112,7 +112,7 @@ function list(entrys, title, term, cPage)
     end
 end
 
-local function message(text, time, col)
+function message(text, time, col)
     time = time or 3
     col = col or colors.green
 
@@ -122,7 +122,7 @@ local function message(text, time, col)
     sleep(time)
 end
 
-local function messageTerm(text, time, col)
+function messageTerm(text, time, col)
     time = time or 3
     col = col or colors.green
 
