@@ -47,21 +47,27 @@ public class Main  {
 		jsonPost(Types.SwitchRequest.class, "/switch/request", sw -> {
 			System.out.println("Train requesting switching into at " + sw.info.name);
 
-			boolean shouldSwitch = false;
+			final boolean[] shouldSwitch = { false };
 
-			Utils.ifValid(sw.minecart.dest, new Consumer<String>() {
-				@Override
-				public void accept(String str) {
-					Types.ComputerData dest = dataManager.getByID(str);
-					Types.ComputerData current = dataManager.getByID(sw.info.id);
-					Pathfinder pathfinder = new Pathfinder();
-					pathfinder.build(dataManager);
+			Utils.ifValid(sw.minecart.dest, str -> {
+				System.out.println("Train traveling to: " + str);
+				Types.ComputerData dest = dataManager.getByName(str);
+				Types.ComputerData current = dataManager.getByID(sw.info.id);
+				Pathfinder pathfinder = new Pathfinder();
+				pathfinder.build(dataManager);
+				Types.ComputerData next = pathfinder.getNext(current, dest);
 
+				System.out.println("Next point: " + next.name);
+				Types.Switch aSwitch = (Types.Switch) current;
+				System.out.println("Turn to " + aSwitch.turnsTo);
+				if(aSwitch.turnsTo.equalsIgnoreCase(next.name)){
+					System.out.println("Switching train onto other line");
+					shouldSwitch[0] = true;
 				}
 			});
 
 			Types.SwitchResponse response = new Types.SwitchResponse();
-			response.shouldSwitch = true;
+			response.shouldSwitch = shouldSwitch[0];
 			return response;
 		});
 

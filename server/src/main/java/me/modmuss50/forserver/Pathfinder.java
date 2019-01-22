@@ -5,7 +5,10 @@ import es.usc.citius.hipster.algorithm.Hipster;
 import es.usc.citius.hipster.graph.GraphBuilder;
 import es.usc.citius.hipster.graph.GraphSearchProblem;
 import es.usc.citius.hipster.graph.HipsterDirectedGraph;
+import es.usc.citius.hipster.model.impl.WeightedNode;
 import es.usc.citius.hipster.model.problem.SearchProblem;
+
+import java.util.List;
 
 public class Pathfinder {
 
@@ -33,9 +36,15 @@ public class Pathfinder {
 	}
 
 	public Types.ComputerData getNext(Types.ComputerData current, Types.ComputerData dest){
+		if(current == null || dest == null){
+			throw new RuntimeException("invalid point");
+		}
+		System.out.println("Requesting path find from " + current.name + " to " + dest.name);
 		Algorithm.SearchResult searchResult = pathFind(current, dest);
-		System.out.println(searchResult);
-		return null;
+		List<WeightedNode> path = searchResult.getGoalNode().path();
+		System.out.println("path:" + path);
+		Types.ComputerData next = (Types.ComputerData) path.get(1).state();
+		return next;
 	}
 
 }

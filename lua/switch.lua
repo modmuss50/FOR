@@ -70,7 +70,7 @@ local function resetSystem()
 end
 
 local function shouldSwitch(train)
-    local response = utils.httpPost("switch/request", data)
+    local response = utils.httpPost("switch/request", train)
     print(response.status)
     if not response.status == "success" then
         error(response.status)

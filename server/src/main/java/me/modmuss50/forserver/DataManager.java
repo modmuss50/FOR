@@ -25,7 +25,7 @@ public class DataManager {
 	}
 
 	public Types.ComputerData getByID(String id){
-		return getAll().stream().filter(computerData -> computerData.id.equals(id)).findFirst().orElse(null);
+		return getAll().stream().filter(computerData -> computerData.id.equals(id)).findFirst().orElseThrow(null);
 	}
 
 	public Types.ComputerData getByName(String name){

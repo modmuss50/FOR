@@ -12,6 +12,14 @@ public class Types {
 	public static class ComputerData {
 		public String name;
 		public String id;
+
+		@Override
+		public String toString() {
+			return "ComputerData{" +
+				"name='" + name + '\'' +
+				", id='" + id + '\'' +
+				'}';
+		}
 	}
 
 	public static class Station extends ComputerData {
