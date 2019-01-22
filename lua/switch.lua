@@ -33,12 +33,12 @@ end
 
 local function updateConnections()
     local otherSwitches = getOtherSwitches()
-    utils.message("Select next switch after stright on")
+    utils.messageTerm("Select next switch after stright on")
     data.contiunesTo = utils.list(otherSwitches, "Switch contiunes to:", true)
-    utils.message("Select next switch after turn")
+    utils.messageTerm("Select next switch after turn")
     data.turnsTo = utils.list(otherSwitches, "Switch turns to:", true)
     wirteSwData()
-    utils.message("Switch data updated")
+    utils.messageTerm("Switch data updated")
 end
 
 local function switching()
