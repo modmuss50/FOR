@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Types {
 
-	public static class Default {
+	public static class DefaultResponse {
 		public String status;
 	}
 
@@ -23,12 +23,28 @@ public class Types {
 		String turnsTo;
 	}
 
+	public static class SwitchRquest extends ComputerData  {
+		Switch info;
+		Minecart minecart;
+	}
+
+	public static class SwitchResponse extends DefaultResponse {
+		boolean shouldSwitch;
+	}
+
+	public static class Minecart {
+		String type;
+		String name;
+		String dest;
+		String owner;
+	}
+
 	public static class ListRequest {
 		String type;
 		String ingoreId;
 	}
 
-	public static class ComputerList extends Default {
+	public static class ComputerList extends DefaultResponse {
 		public List<ComputerData> computers = new ArrayList<>();
 	}
 

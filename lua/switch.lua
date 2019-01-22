@@ -63,7 +63,12 @@ local function resetSystem()
 end
 
 local function shouldSwitch(train)
-    return false
+    local response = utils.httpPost("switch/request", data)
+    print(response.status)
+    if not response.status == "success" then
+        error(response.status)
+    end
+    return response.shouldSwitch
 end
 
 local function onTrainPass(train)

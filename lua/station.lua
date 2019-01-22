@@ -72,7 +72,7 @@ local function drawScreen(data)
         local event, button = t:handleEvents(os.pullEvent())
         if event == "button_click" then
             if utils.startsWith(button, "#") then
-                travel(button)
+                travel(button:gsub("#", ""))
                 break
             end
             if button == "Next Page" then
