@@ -29,7 +29,7 @@ public class Types {
 	}
 
 	public static class ComputerList extends Default {
-		public List<String> computers = new ArrayList<>();
+		public List<ComputerData> computers = new ArrayList<>();
 	}
 
 }

@@ -31,22 +31,21 @@ public class Main  {
 
 		jsonPost(Types.Station.class, "/station/new", station -> {
 			System.out.println("New Station added, " + station.name);
-			dataManager.computers.put(station.id, station);
+			dataManager.stations.put(station.id, station);
 			dataManager.save();
 			return null;
 		});
 
 		jsonPost(Types.Switch.class, "/switch/new", sw -> {
 			System.out.println("New Switch added, " + sw.name);
-			dataManager.computers.put(sw.id, sw);
+			dataManager.switches.put(sw.id, sw);
 			dataManager.save();
 			return null;
 		});
 
 		jsonPost(Types.ListRequest.class, "/computer/list", request -> {
 			Types.ComputerList list = new Types.ComputerList();
-			list.computers = dataManager.computers.entrySet().stream()
-				.map(Map.Entry::getValue)
+			list.computers = dataManager.getAll().stream()
 				.filter(computerData -> {
 					if(request.ingoreId != null && request.ingoreId.equalsIgnoreCase(computerData.id)){
 						return false;
@@ -61,9 +60,7 @@ public class Main  {
 						return computerData instanceof Types.Station;
 					}
 					return false;
-				})
-				.map(computer -> computer.name)
-				.collect(Collectors.toList());
+				}).collect(Collectors.toList());
 			return list;
 		});
 	}

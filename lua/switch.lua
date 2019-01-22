@@ -3,6 +3,9 @@ os.loadAPI("utils.lua")
 local dataFile = "switch.json"
 local data = {}
 local args = {...}
+local bundled = "back"
+local hold = true
+local turn = false
 
 local function getOtherSwitches()
     local request = {
@@ -41,6 +44,62 @@ local function updateConnections()
     utils.messageTerm("Switch data updated")
 end
 
+--Resets the system to be ready for the next train
+local function updateRedstone()
+    local color = colors.combine(colors.red,colors.green)
+    if hold then
+        color = colors.subtract(color, colors.red)
+    end
+    if not turn then
+        color = colors.subtract(color, colors.green)
+    end
+    redstone.setBundledOutput(bundled, color)
+end
+
+local function resetSystem()
+    hold = true
+    turn = false
+    updateRedstone()
+end
+
+local function shouldSwitch(train)
+    return false
+end
+
+local function onTrainPass(train)
+
+    print(train.minecart.type)
+
+    turn = shouldSwitch(train)
+    hold = false
+    updateRedstone()
+
+    sleep(3) -- Allows time for whole train to pass
+
+    hold = true
+    turn = false
+    updateRedstone()
+end
+
+local function waitForTrain()
+    print("Waiting for train to pass")
+    while true do
+        local event, color, minecartType, minecartName, color1, color2, destination, ownerName = os.pullEvent("minecart")
+        local passData = {
+            info = data,
+            minecart = {
+                type = minecartType,
+                name = minecartName,
+                dest = destination,
+                owner = ownerName
+            }
+        }
+
+        onTrainPass(passData)
+        break
+    end
+end
+
 local function switching()
     if not fs.exists(dataFile) then
         setup()
@@ -50,7 +109,15 @@ local function switching()
 
     if args[1] == "update" then
         updateConnections()
+        print("connections updated")
+        return
     end
+    resetSystem()
+
+    while true do
+        waitForTrain()
+    end
+
 end
 
 switching()
