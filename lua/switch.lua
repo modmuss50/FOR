@@ -2,6 +2,7 @@ os.loadAPI("utils.lua")
 
 local dataFile = "switch.json"
 local data = {}
+local args = {...}
 
 local function getOtherSwitches()
     local request = {
@@ -47,7 +48,6 @@ local function switching()
         data = json.decodeFromFile(dataFile)
     end
 
-    local args = {...}
     if args[1] == "update" then
         updateConnections()
     end
