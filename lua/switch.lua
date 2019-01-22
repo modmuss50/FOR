@@ -27,7 +27,7 @@ local function setup()
     data = {
         name = utils.readValue("switch name")
     }
-    data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
+    data.id = tonumber(utils.readValue("x pos")) .. "," .. tonumber(utils.readValue("y pos")) .. "," .. tonumber(utils.readValue("z pos"))
     wirteSwData()
 end
 

@@ -132,7 +132,7 @@ local function messageTerm(text, time, col)
     sleep(time)
 end
 
-local function readValue(name)
+function readValue(name)
     print("Enter " .. name .. ":")
     return read()
 end

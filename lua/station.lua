@@ -11,10 +11,10 @@ local stations
 local function setup()
     print("Station data not found, station setup tool:")
     local data = {
-        name = readValue("station name")
+        name = utils.readValue("station name")
     }
 
-    data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
+    data.id = tonumber(utils.readValue("x pos")) .. "," .. tonumber(utils.readValue("y pos")) .. "," .. tonumber(utils.readValue("z pos"))
 
     local response = utils.httpPost("station/new", data)
     if not response.status == "success" then
