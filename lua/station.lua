@@ -7,20 +7,11 @@ local page = 1
 local pages = 1
 local stations
 
-local function readValue(name)
-    print("Enter " .. name .. ":")
-    return read()
-end
 
 local function setup()
     print("Station data not found, station setup tool:")
     local data = {
-        name = readValue("station name"),
-        pos = {
-            x = tonumber(readValue("x pos")),
-            y = tonumber(readValue("y pos")),
-            z = tonumber(readValue("z pos"))
-        }
+        name = readValue("station name")
     }
 
     data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
@@ -33,26 +24,16 @@ local function setup()
     json.encodeToFile(dataFile, data)
 end
 
-local function message(text, time, col)
-    time = time or 3
-    col = col or colors.green
-
-    local t = touchpoint.new()
-    t:add(text, nil, 1, 1, 39, 19, col, col)
-    t:draw()
-    sleep(time)
-end
-
 local function travel(destination)
-    message("Traveling to " .. destination, 1)
-    message("Printing ticket", 1)
-    
+    utils.message("Traveling to " .. destination, 1)
+    utils.message("Printing ticket", 1)
+
     local ticketMachine = peripheral.find("ticket_machine")
     ticketMachine.setSelectedTicket(1)
     ticketMachine.setDestination(1, destination)
     local printed, error = ticketMachine.printTicket(1)
     if not printed then
-        message("Failed to print:" .. error, 5, colors.red)
+        utils.message("Failed to print:" .. error, 5, colors.red)
     end
 end
 
@@ -63,7 +44,7 @@ local function drawScreen(data)
 
     t:add("Page: " .. page .. "/" .. pages, nil, 1, 3, 39, 3, colors.gray, colors.gray, colors.lime, colors.lime)
 
-    for i=1,4 do 
+    for i = 1, 4 do
         local y = 1 + (i * 3)
         local color = colors.red
         local textColor = colors.white
@@ -71,21 +52,19 @@ local function drawScreen(data)
             color = colors.pink
             textColor = colors.black
         end
-        local stationName = stations[i + ((page -1) * 4)]
-        if stationName then 
-            t:add("#" .. stationName , nil, 1, y, 39, y + 2, color, color, textColor, textColor)
+        local stationName = stations[i + ((page - 1) * 4)]
+        if stationName then
+            t:add("#" .. stationName, nil, 1, y, 39, y + 2, color, color, textColor, textColor)
         end
     end
 
-    if not (page == 1) then 
+    if not (page == 1) then
         t:add("Previous Page", nil, 1, 17, 19, 19, colors.orange, colors.orange, colors.black, colors.black)
     end
 
-    
     if not (page == pages) then
         t:add("Next Page", nil, 20, 17, 39, 19, colors.magenta, colors.magenta, colors.black, colors.black)
     end
-
 
     t:draw()
 
@@ -96,12 +75,12 @@ local function drawScreen(data)
                 travel(button)
                 break
             end
-            if button == "Next Page" then 
+            if button == "Next Page" then
                 page = page + 1
                 drawScreen(data)
                 break
             end
-            if button == "Previous Page" then 
+            if button == "Previous Page" then
                 page = page - 1
                 drawScreen(data)
                 break
@@ -111,8 +90,12 @@ local function drawScreen(data)
 end
 
 local function getStations()
-    local response = utils.httpGet("station/list")
-    stations = response.stations
+    local request = {
+        type = "station",
+        ingoreId = data.id
+    }
+    local response = utils.httpPost("computer/list", request)
+    stations = response.computers
     page = 1
     pages = math.ceil(utils.tablelength(stations) / 4)
 end
@@ -135,4 +118,3 @@ end
 while true do
     stationMain()
 end
-

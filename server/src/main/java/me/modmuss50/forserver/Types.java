@@ -9,20 +9,27 @@ public class Types {
 		public String status;
 	}
 
-	public static class Station {
+	public static class ComputerData {
 		public String name;
 		public String id;
-		public Position pos;
 	}
 
-	public static class StationList extends Default {
-		public List<String> stations = new ArrayList<>();
+	public static class Station extends ComputerData {
+
 	}
 
-	public static class Position {
-		int x;
-		int y;
-		int z;
+	public static class Switch extends ComputerData  {
+		String contiunesTo;
+		String turnsTo;
+	}
+
+	public static class ListRequest {
+		String type;
+		String ingoreId;
+	}
+
+	public static class ComputerList extends Default {
+		public List<String> computers = new ArrayList<>();
 	}
 
 }

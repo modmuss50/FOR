@@ -12,9 +12,9 @@ local function setup()
     print("Detector data not found, station setup tool:")
     local data = {
         pos = {
-            x = tonumber(readValue("x pos")),
-            y = tonumber(readValue("y pos")),
-            z = tonumber(readValue("z pos"))
+            x = tonumber(utils.readValue("x pos")),
+            y = tonumber(utils.readValue("y pos")),
+            z = tonumber(utils.readValue("z pos"))
         }
     }
     data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z

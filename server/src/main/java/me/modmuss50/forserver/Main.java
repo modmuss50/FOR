@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.javalin.Javalin;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -13,22 +15,54 @@ public class Main  {
 
 	public static Javalin APP = Javalin.create().start(9999);
 	public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	public static DataManager dataManager = new DataManager();
+	public static DataManager dataManager;
+
+	static {
+		try {
+			dataManager = DataManager.read();
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to load data");
+		}
+	}
 
 	public static void main(String[] args) {
 
 		APP.get("/", ctx -> ctx.result("Hello"));
 
 		jsonPost(Types.Station.class, "/station/new", station -> {
-			System.out.println("New station, " + station.name);
-			dataManager.stations.add(station);
+			System.out.println("New Station added, " + station.name);
+			dataManager.computers.put(station.id, station);
+			dataManager.save();
 			return null;
 		});
 
-		jsonGet("/station/list", () -> {
-			Types.StationList list = new Types.StationList();
-			list.stations = dataManager.stations.stream()
-				.map(station -> station.name)
+		jsonPost(Types.Switch.class, "/switch/new", sw -> {
+			System.out.println("New Switch added, " + sw.name);
+			dataManager.computers.put(sw.id, sw);
+			dataManager.save();
+			return null;
+		});
+
+		jsonPost(Types.ListRequest.class, "/computer/list", request -> {
+			Types.ComputerList list = new Types.ComputerList();
+			list.computers = dataManager.computers.entrySet().stream()
+				.map(Map.Entry::getValue)
+				.filter(computerData -> {
+					if(request.ingoreId != null && request.ingoreId.equalsIgnoreCase(computerData.id)){
+						return false;
+					}
+					if(request.type == null || request.type.isEmpty()){
+						return true;
+					}
+					if(request.type.equalsIgnoreCase("station")){
+						return computerData instanceof Types.Station;
+					}
+					if(request.type.equalsIgnoreCase("switch")){
+						return computerData instanceof Types.Station;
+					}
+					return false;
+				})
+				.map(computer -> computer.name)
 				.collect(Collectors.toList());
 			return list;
 		});

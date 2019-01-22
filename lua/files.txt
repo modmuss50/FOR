@@ -4,3 +4,4 @@ station.lua
 utils.lua
 touchpoint.lua
 dectector.lua
+switch.lua
