@@ -3,11 +3,6 @@ os.loadAPI("utils.lua")
 
 local dataFile = "detector.json"
 
-local function readValue(name)
-    print("Enter " .. name .. ":")
-    return read()
-end
-
 local function setup()
     print("Detector data not found, station setup tool:")
     local data = {

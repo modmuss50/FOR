@@ -25,7 +25,7 @@ end
 local function setup()
     print("Enter switch data:")
     data = {
-        name = readValue("switch name")
+        name = utils.readValue("switch name")
     }
     data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
     wirteSwData()
