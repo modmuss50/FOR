@@ -12,7 +12,13 @@ local function getOtherSwitches()
         ingoreId = data.id
     }
     local response = utils.httpPost("computer/list", request)
-    return response.computers
+
+    local names = {}
+    for i = 1, utils.tablelength(response.computers) do
+        table.insert(names, response.computers[i].name)
+    end
+
+    return names
 end
 
 local function wirteSwData()
@@ -24,13 +30,14 @@ local function wirteSwData()
     json.encodeToFile(dataFile, data)
 end
 
-
 local function setup()
     print("Enter switch data:")
     data = {
         name = utils.readValue("switch name")
     }
-    data.id = tonumber(utils.readValue("x pos")) .. "," .. tonumber(utils.readValue("y pos")) .. "," .. tonumber(utils.readValue("z pos"))
+    data.id =
+        tonumber(utils.readValue("x pos")) ..
+        "," .. tonumber(utils.readValue("y pos")) .. "," .. tonumber(utils.readValue("z pos"))
     wirteSwData()
 end
 
@@ -46,7 +53,7 @@ end
 
 --Resets the system to be ready for the next train
 local function updateRedstone()
-    local color = colors.combine(colors.red,colors.green)
+    local color = colors.combine(colors.red, colors.green)
     if hold then
         color = colors.subtract(color, colors.red)
     end
@@ -72,7 +79,6 @@ local function shouldSwitch(train)
 end
 
 local function onTrainPass(train)
-
     print(train.minecart.type)
 
     turn = shouldSwitch(train)
@@ -89,7 +95,8 @@ end
 local function waitForTrain()
     print("Waiting for train to pass")
     while true do
-        local event, color, minecartType, minecartName, color1, color2, destination, ownerName = os.pullEvent("minecart")
+        local event, color, minecartType, minecartName, color1, color2, destination, ownerName =
+            os.pullEvent("minecart")
         local passData = {
             info = data,
             minecart = {
@@ -122,7 +129,6 @@ local function switching()
     while true do
         waitForTrain()
     end
-
 end
 
 switching()

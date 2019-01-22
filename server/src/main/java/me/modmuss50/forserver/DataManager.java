@@ -28,6 +28,10 @@ public class DataManager {
 		return getAll().stream().filter(computerData -> computerData.id.equals(id)).findFirst().orElse(null);
 	}
 
+	public Types.ComputerData getByName(String name){
+		return getAll().stream().filter(computerData -> computerData.name.equals(name)).findFirst().orElse(null);
+	}
+
 	public void save()  {
 		try {
 			FileUtils.writeStringToFile(data, Main.GSON.toJson(this), StandardCharsets.UTF_8);

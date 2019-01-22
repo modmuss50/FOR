@@ -7,14 +7,15 @@ local page = 1
 local pages = 1
 local stations
 
-
 local function setup()
     print("Station data not found, station setup tool:")
     local data = {
         name = utils.readValue("station name")
     }
 
-    data.id = tonumber(utils.readValue("x pos")) .. "," .. tonumber(utils.readValue("y pos")) .. "," .. tonumber(utils.readValue("z pos"))
+    data.id =
+        tonumber(utils.readValue("x pos")) ..
+        "," .. tonumber(utils.readValue("y pos")) .. "," .. tonumber(utils.readValue("z pos"))
 
     local response = utils.httpPost("station/new", data)
     if not response.status == "success" then
@@ -95,7 +96,13 @@ local function getStations()
         ingoreId = data.id
     }
     local response = utils.httpPost("computer/list", request)
-    stations = response.computers
+
+    local names = {}
+    for i = 1, utils.tablelength(response.computers) do
+        table.insert(names, response.computers[i].name)
+    end
+
+    stations = names
     page = 1
     pages = math.ceil(utils.tablelength(stations) / 4)
 end

@@ -4,8 +4,10 @@ package me.modmuss50.forserver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.javalin.Javalin;
+import sun.dc.pr.PathFiller;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -42,8 +44,21 @@ public class Main  {
 			return null;
 		});
 
-		jsonPost(Types.SwitchRquest.class, "/switch/request", sw -> {
-			System.out.println("Train requesting switching into at " + sw.name);
+		jsonPost(Types.SwitchRequest.class, "/switch/request", sw -> {
+			System.out.println("Train requesting switching into at " + sw.info.name);
+
+			boolean shouldSwitch = false;
+
+			Utils.ifValid(sw.minecart.dest, new Consumer<String>() {
+				@Override
+				public void accept(String str) {
+					Types.ComputerData dest = dataManager.getByID(str);
+					Types.ComputerData current = dataManager.getByID(sw.info.id);
+					Pathfinder pathfinder = new Pathfinder();
+					pathfinder.build(dataManager);
+
+				}
+			});
 
 			Types.SwitchResponse response = new Types.SwitchResponse();
 			response.shouldSwitch = true;

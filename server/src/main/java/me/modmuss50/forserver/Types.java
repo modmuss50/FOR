@@ -23,7 +23,7 @@ public class Types {
 		String turnsTo;
 	}
 
-	public static class SwitchRquest extends ComputerData  {
+	public static class SwitchRequest   {
 		Switch info;
 		Minecart minecart;
 	}

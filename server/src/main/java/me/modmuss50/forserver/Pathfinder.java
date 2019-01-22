@@ -14,8 +14,8 @@ public class Pathfinder {
 	public void build(DataManager dataManager){
 		GraphBuilder<Types.ComputerData, Integer> graphBuilder = GraphBuilder.create();
 		dataManager.switches.values().forEach(aSwitch -> {
-			Utils.ifValid(aSwitch.turnsTo, s -> graphBuilder.connect(aSwitch).to(dataManager.getByID(s)).withEdge(10));
-			Utils.ifValid(aSwitch.contiunesTo, s -> graphBuilder.connect(aSwitch).to(dataManager.getByID(s)).withEdge(10));
+			Utils.ifValid(aSwitch.turnsTo, s -> graphBuilder.connect(aSwitch).to(dataManager.getByName(s)).withEdge(10));
+			Utils.ifValid(aSwitch.contiunesTo, s -> graphBuilder.connect(aSwitch).to(dataManager.getByName(s)).withEdge(10));
 		});
 
 		graph = graphBuilder.createDirectedGraph();
@@ -30,6 +30,12 @@ public class Pathfinder {
 
 		Algorithm.SearchResult result = Hipster.createDijkstra(p).search(end);
 		return result;
+	}
+
+	public Types.ComputerData getNext(Types.ComputerData current, Types.ComputerData dest){
+		Algorithm.SearchResult searchResult = pathFind(current, dest);
+		System.out.println(searchResult);
+		return null;
 	}
 
 }
