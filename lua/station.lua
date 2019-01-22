@@ -14,13 +14,18 @@ local function setup()
     local data = {
         name = readValue("station name"),
         pos = {
-            x = readValue("x pos"),
-            y = readValue("y pos"),
-            z = readValue("z pos")
+            x = tonumber(readValue("x pos")),
+            y = tonumber(readValue("y pos")),
+            z = tonumber(readValue("z pos"))
         }
     }
 
     data.id = data.pos.x .. "," .. data.pos.y .. "," .. data.pos.z
+
+    local response = utils.httpPost("station/new", data)
+    if not response.status == "success" then
+        error(response.status)
+    end
 
     json.encodeToFile(dataFile, data)
 end
@@ -82,6 +87,11 @@ local function drawScreen(data, stations)
     end
 end
 
+local function getStations()
+    local response = utils.httpGet("station/list")
+    return response.stations
+end
+
 local function stationMain()
     if not fs.exists(dataFile) then
         setup()
@@ -89,11 +99,7 @@ local function stationMain()
     print("Reading station.json")
     data = json.decodeFromFile(dataFile)
 
-    local stations = {
-        "Test",
-        "Station 2",
-        "Someone Else"
-    }
+    local stations = getStations()
 
     local ticketMachine = peripheral.find("ticket_machine")
     ticketMachine.setManualPrintingAllowed(false)
