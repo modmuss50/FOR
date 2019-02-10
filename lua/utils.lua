@@ -1,7 +1,7 @@
 os.loadAPI("json.lua")
 os.loadAPI("touchpoint.lua")
 
-local apiURL = "http://trains.modmuss50.me:9999/"
+local apiURL = "http://modmuss50.playat.ch:9999/"
 
 --Gets around caching
 function getUrlSuffix()
